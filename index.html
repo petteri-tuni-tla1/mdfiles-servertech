@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="pragma" content="no-cache" />
+    <title>Learnall Home 2023-2024</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <main class="container-fluid">
+    <h1> Learn Linux of the Day</h1>
+    
+    <div class="row">
+    <div class="col">
+    <h3>Famous Quotes</h3>
+    <ul id="legends_md">   </ul>
+   
+    <h3>Linux Servers</h3>
+    <ul id="linux_md"></ul>
+
+    </div>
+    <div class="col">
+
+    <p></p>    
+
+  </div>
+
+  </main>
+</body>
+
+<script src="filetool.js"></script>
+
+<script>
+    // JQuery syntax - document loaded
+  $(document).ready(function () {
+    prepareList('legends_md', 'legends')         
+    prepareList('linux_md', 'linux')              
+  })
+</script>
+
+</html>
