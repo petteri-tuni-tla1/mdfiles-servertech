@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="pragma" content="no-cache" />
-    <title>Learnall Home 2023-2024</title>
+    <title>Learnall ServerTech 2025</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
@@ -17,16 +17,28 @@
 <body>
 
     <main class="container-fluid">
-    <h1> Learn Linux of the Day</h1>
+    <h1> Files of the Day</h1>
     
-    <div class="row">
-    <div class="col">
-    <h3>Famous Quotes</h3>
-    <ul id="legends_md">   </ul>
-   
-    <h3>Linux Servers</h3>
-    <ul id="linux_md"></ul>
+    <p>Linux</p>
+    <ul id="linux1_md">
+    </ul>
 
+    <ul id="linux2_md">
+    </ul>
+
+    <p>Legends</p>
+    <ul id="legends_md">
+    </ul>
+
+    <p>Japanese</p>
+    <ul id="jp_md">
+    </ul>
+  
+    <p>Suomi</p>
+    <ul id="suomi_md">
+    </ul>
+
+    
     </div>
     <div class="col">
 
@@ -42,8 +54,11 @@
 <script>
     // JQuery syntax - document loaded
   $(document).ready(function () {
-    prepareList('legends_md', 'legends')         
-    prepareList('linux_md', 'linux')              
+    prepareList('legends_md', 'legends')
+    prepareList('jp_md', 'japanese')
+    prepareList('linux1_md', 'linux-fundamentals')
+    prepareList('linux2_md', 'linux-servers')
+    prepareList('suomi_md', 'suomi')
   })
 </script>
 

@@ -13,23 +13,22 @@ async function fetchFilesList(fileprm) {
 function prepareMD () {
   const urlParams = new URLSearchParams(window.location.search);
     const fileParam = urlParams.get('tip');
-    const nrParam = parseInt(urlParams.get('nr')) + 1
+    const curParam = urlParams.get('nr')
+    const nextParam = parseInt(urlParams.get('nr')) + 1
+    const prevParam = parseInt(urlParams.get('nr')) - 1
     const dirParam = urlParams.get('dir');
     curDir = dirParam;
 
-    // console.log("Read filelist from: " + dirParam);
+    console.log("Cur nr: " + curParam + " Next: " + nextParam + " prevParam: " + prevParam)
     
     fetchFilesList(dirParam + '.txt').then(list => {
         // console.log("List of files files:" + list);
         
         listFiles = list.split("\n")
-        fileListMap.set(dirParam, listFiles)
+        fileListMap.set(dirParam, listFiles)                
         
-        //let nextNr, nextFile
-        //const nextNr = getNextNr(nrParam, dirParam)
-        //const nextFile = getNextFile(nrParam, dirParam)
-        
-        const [nextFile, nextNr] = getNextFile(nrParam, dirParam)
+        const [nextFile, nextNr] = getNextFile(nextParam, dirParam)
+        const [prevFile, prevNr] = getPreviousFile(prevParam, dirParam)
 
         let fileFile = dirParam +  '/' + fileParam + ".md"
         if (fileParam != '' && fileParam != null) {
@@ -49,9 +48,10 @@ function prepareMD () {
 
         fetch(fileFile).then(response => response.text()).then(data => document.getElementById('content').innerHTML = marked.parse(data))
         
-        tmpHtml = "<hr /><p>"
-        tmpHtml += '### <a href=\"mdfiles.html?tip=' + nextFile + '&dir=' + dirParam + '&nr=' + nextNr + '\"> Next: ' + nextFile + '</a>'
-        tmpHtml += ' ### <a href=\"./\"> Alkuun </a> ### '
+        tmpHtml = "<hr /><p>"        
+        tmpHtml += '### <a href=\"mdfiles.html?tip=' + prevFile + '&dir=' + dirParam + '&nr=' + prevNr + '\"> PREV: ' + prevFile + '</a>'
+        tmpHtml += ' ### <a href=\"./\"> HOME </a> '
+        tmpHtml += ' ### <a href=\"mdfiles.html?tip=' + nextFile + '&dir=' + dirParam + '&nr=' + nextNr + '\"> NEXT: ' + nextFile + '</a> ###'         
         tmpHtml += "</p>"
     
         document.getElementById('next').innerHTML = '<p>' +  tmpHtml + '</p>'       
@@ -90,14 +90,14 @@ function createMDList(htmlprm, dirprm) {
 }
 
 function getNextFile(nrPrm, dirprm) {  
-    let nr = getNextNr(nrPrm, dirprm)
+    let nr = getValidNr(nrPrm, dirprm)
   // console.log("listFiles: " + listFiles)
     listFiles = fileListMap.get(dirprm)    
     let fileName = listFiles[nr];
     console.log("Asked for " + nr + " - NR calc: " + nr + " - filename-->" + fileName + "<--" )
     if (fileName.trim().length === 0) {
       console.log("Filename empty: " + fileName +"<--")
-      nr = getNextNr(nr + 1, dirprm)      
+      nr = getValidNr(nr + 1, dirprm)      
       fileName = listFiles[nr];
       console.log("Filename was emtpy ... " + nr + " - NR calc: " + nr + " - filename-->" + fileName + "<--" )
     }
@@ -105,12 +105,35 @@ function getNextFile(nrPrm, dirprm) {
     return [fileName, nr]
 }
 
-function getNextNr(nr, dirprm) {    
+function getPreviousFile(nrPrm, dirprm) {  
+  let nr = getValidNr(nrPrm, dirprm)
+// console.log("listFiles: " + listFiles)
+  listFiles = fileListMap.get(dirprm)    
+  let fileName = listFiles[nr];
+  console.log("Asked for " + nr + " - NR calc: " + nr + " - filename-->" + fileName + "<--" )
+  if (fileName.trim().length === 0) {
+    console.log("Filename empty: " + fileName +"<--")
+    nr = getValidNr(nr, dirprm)      
+    fileName = listFiles[nr];
+    console.log("Filename was emtpy ... " + nr + " - NR calc: " + nr + " - filename-->" + fileName + "<--" )
+  }
+
+  return [fileName, nr]
+}
+
+
+
+function getValidNr(nr, dirprm) {    
   listFiles = fileListMap.get(dirprm)
     // console.log("listFiles: " + listFiles)
 
     let nrValid = nr % listFiles.length;    
-    // console.log("Asked for " + nr + " - NR calc: " + nrValid)
+
+    if (nrValid < 0) {
+      nrValid = listFiles.length - 2
+    }
+
+    console.log("getValidNr() - NR-param: " + nr + " - NR valid: " + nrValid)
     return nrValid
 }
 
